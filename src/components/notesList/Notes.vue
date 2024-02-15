@@ -1,8 +1,5 @@
 <template>
   <div>
-    <button @click="addNote()" style="width: 70px">
-      <span class="material-symbols-outlined"> add_ad </span>
-    </button>
     <div v-for="(note, i) of notes">
       <h2>
         Название: {{ note.title }}
@@ -19,8 +16,7 @@
           <span class="material-symbols-outlined"> close </span>
         </button>
       </h2>
-
-      <div v-for="todo of note.todos">
+      <div v-for="todo of note.todos.slice(0, 3)">
         <li>
           <span>
             {{ todo.title }}
@@ -35,6 +31,12 @@
       @saveTodo="Todo"
       @save-false="saveFalse"
     />
+    <button
+      @click="addNote()"
+      style="width: 70px; border-radius: 5px 5px 5px 5px"
+    >
+      <span class="material-symbols-outlined"> add_ad </span>
+    </button>
   </div>
 </template>
 
@@ -106,21 +108,8 @@ li {
   margin-left: auto;
   margin-right: auto;
 }
-
-.rm {
-  border: 0px solid#000000;
-  background: rgb(255, 255, 255);
-  color: #000000;
-  border-radius: 25%;
-  font-weight: 200;
-  cursor: pointer;
-}
-
 input {
   margin-right: 2rem;
-}
-.done {
-  background-color: #b4ffb4;
 }
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
@@ -129,5 +118,9 @@ button {
   border-width: 2px;
   border-radius: 10%;
   cursor: pointer;
+}
+button:hover {
+  background: #72727252;
+  /* transform: scale(1.5); */
 }
 </style>

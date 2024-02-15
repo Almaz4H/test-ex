@@ -1,13 +1,33 @@
 <template>
-  <div class="hello">
+  <div class="hello" style="justify-content: center">
     <div class="login">
-      <form @submit.prevent="login">
-        <h1>Войти на сайт</h1>
-        <label for="username">Имя пользователя</label>
-        <input type="text" v-model="username" name="username" />
-        <label for="password">Пароль</label>
-        <input type="text" v-model="password" name="password" />
-        <button>Войти</button>
+      <form @submit.prevent>
+        <div>
+          <label for="username" style="margin-right: 12px">Логин</label>
+          <input type="text" v-model="username" name="username" />
+        </div>
+        <div>
+          <label for="password">Пароль</label>
+          <input
+            :type="vis ? 'text' : 'password'"
+            v-model="password"
+            name="password"
+          />
+          <button @click="vis = !vis">
+            <span v-if="vis" class="material-symbols-outlined">
+              visibility
+            </span>
+            <span v-else class="material-symbols-outlined">
+              visibility_off
+            </span>
+          </button>
+        </div>
+        <button
+          style="height: 30px; font-size: 16px; font-weight: bold"
+          @click="login"
+        >
+          Войти
+        </button>
       </form>
     </div>
   </div>
@@ -19,6 +39,7 @@ export default {
     return {
       username: "",
       password: "",
+      vis: false,
     };
   },
   methods: {
@@ -32,3 +53,31 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+label {
+  font-weight: bold;
+}
+input {
+  margin-left: 10px;
+}
+button {
+  margin-left: 5px;
+  border-width: 0px;
+  border-radius: 10%;
+  cursor: pointer;
+}
+button:hover {
+  background-color: black;
+  color: aliceblue;
+}
+div {
+  margin: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+</style>

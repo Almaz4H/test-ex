@@ -20,21 +20,59 @@
           >
             <span class="material-symbols-outlined"> edit </span>
           </button>
+          <button
+            class="rm"
+            @click="
+              $emit('saveTodo', NoteX);
+              save = true;
+            "
+            style="float: right"
+          >
+            <span
+              v-if="save"
+              class="material-symbols-outlined"
+              style="font-size: 30px"
+            >
+              save
+            </span>
+            <span
+              v-else
+              class="material-symbols-outlined"
+              style="font-size: 30px"
+            >
+              save_as
+            </span>
+          </button>
         </h3>
+
         <AddEl @add-el="addEl" />
+        <br />
 
         <div v-for="(todo, i) of NoteX.todos">
           <li :class="{ done: todo.completed }">
-            <span>
+            <span
+              style="
+                height: 30px;
+                width: 500px;
+                max-width: 500px;
+                display: flex;
+                align-items: center;
+              "
+            >
               <button class="rm" @click="todo.completed = !todo.completed">
-                <span class="material-symbols-outlined"> done </span>
+                <span v-if="todo.completed" class="material-symbols-outlined">
+                  unpublished
+                </span>
+                <span v-else class="material-symbols-outlined">
+                  check_circle
+                </span>
               </button>
               <strong>{{ i + 1 }}</strong>
               {{ todo.title }}
             </span>
             <button
               class="rm"
-              style="left: 0px"
+              style="text-align: end"
               @click="
                 todo1 = true;
                 rerightTodoNote();
@@ -43,19 +81,49 @@
             >
               <span class="material-symbols-outlined"> edit </span>
             </button>
-            <button class="rm" @click="removeTodoNote(todo.id)">
+            <button
+              class="rm"
+              style="float: right"
+              @click="removeTodoNote(todo.id)"
+            >
               <span class="material-symbols-outlined"> close </span>
             </button>
           </li>
         </div>
-        <form v-if="this.reright" @submit.prevent="TheSubmit(ActiveId)">
-          <input type="text" v-model="title" />
-          <button type="submit">&#8617;</button>
-        </form>
       </div>
-      <button @click="$emit('saveTodo', NoteX)">
-        <span class="material-symbols-outlined"> save </span>
-      </button>
+    </div>
+    <div
+      v-if="this.reright"
+      @submit.prevent="TheSubmit(ActiveId)"
+      class="editWndw"
+    >
+      <div
+        class="editor1"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <h4>Заменить на &nbsp;</h4>
+        <input style="width: 200px; height: 30px" type="text" v-model="title" />
+        <button
+          class="rm"
+          type="submit"
+          @click="TheSubmit(ActiveId)"
+          style="background: #ffffff; padding: 6px"
+          onmouseover="this.style.backgroundColor='#00ff00';"
+          onmouseout="this.style.backgroundColor='#ffffff';"
+        >
+          <span class="material-symbols-outlined"> check </span>
+        </button>
+        <button
+          style="background: #ffffff; padding: 6px"
+          onmouseover="this.style.backgroundColor='#ff0000';"
+          onmouseout="this.style.backgroundColor='#ffffff';"
+          class="rm"
+          type="submit"
+          @click="reright = !reright"
+        >
+          <span class="material-symbols-outlined"> close</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +144,7 @@ export default {
       title: "",
       todo1: true,
       con: false,
+      save: true,
     };
   },
   mounted() {
@@ -91,19 +160,23 @@ export default {
         this.NoteX.todos = this.NoteX.todos.filter((el) => el.id !== id);
       }
       this.con = false;
+      this.save = false;
       this.$emit("save-false");
     },
     addEl(x) {
       this.NoteX.todos.push(x);
       this.$emit("save-false");
+      this.save = false;
     },
     TheSubmit(id) {
       if (this.title.trim()) {
+        this.save = false;
+        this.$emit("save-false");
         if (this.todo1 == true) {
           this.NoteX.todos[id].title = this.title;
         } else this.NoteX.title = this.title;
       }
-      this.$emit("save-false");
+
       this.title = "";
       this.reright = !this.reright;
     },
@@ -130,6 +203,13 @@ export default {
   height: 700px;
   background-color: white;
 }
+.editor1 {
+  border: 2px solid black;
+  border-radius: 2%;
+  width: 500px;
+  height: 330px;
+  background-color: white;
+}
 
 ul {
   list-style: none;
@@ -140,21 +220,24 @@ ul {
 li {
   border: 0px solid#808080;
   display: flex;
-  justify-content: space-between;
   width: 500px;
   padding: 0.4rem 2rem;
   margin-bottom: 0.5rem;
   margin-left: auto;
   margin-right: auto;
 }
-
 .rm {
   border: 0px solid#000000;
-  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, 0);
   color: #000000;
   border-radius: 25%;
   font-weight: 200;
   cursor: pointer;
+}
+
+.rm:hover {
+  background: #72727252;
+  transform: scale(1.5);
 }
 
 input {
@@ -162,6 +245,7 @@ input {
 }
 .done {
   background-color: #b4ffb4;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .material-symbols-outlined {

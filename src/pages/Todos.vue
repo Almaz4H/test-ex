@@ -15,6 +15,7 @@ import TodoList from "@/components/todos/TodoList.vue";
 import AddEl from "@/components/todos/AddEl.vue";
 import AddNote from "@/components/notesList/AddNote.vue";
 import notes from "@/components/notesList/Notes.vue";
+import Login from "@/pages/Login.vue";
 
 export default {
   name: "App",
@@ -29,19 +30,23 @@ export default {
         {
           title: "Работа",
           todos: [
-            { id: 1, title: "Поработать", completed: false },
-            { id: 2, title: "Поработать 2", completed: false },
-            { id: 3, title: "Поработать 3", completed: false },
-            { id: 4, title: "Поработать 4", completed: false },
+            { id: 1, title: "Собрать совещение", completed: false },
+            {
+              id: 2,
+              title: "Распределить зоны ответсвенности",
+              completed: false,
+            },
+            { id: 3, title: "Установить сроки", completed: false },
+            { id: 4, title: "Подготовить отчёт", completed: false },
           ],
         },
 
         {
-          title: "Учеба",
+          title: "Тренировка",
           todos: [
-            { id: 1, title: "Посмотреть урок", completed: false },
-            { id: 2, title: "вью2", completed: false },
-            { id: 3, title: "учиться", completed: false },
+            { id: 1, title: "Пробежка 30мин", completed: false },
+            { id: 2, title: "Подтягивание 5 подходов", completed: false },
+            { id: 3, title: "Отжимания 3 подхода", completed: false },
           ],
         },
       ],
@@ -61,7 +66,7 @@ export default {
     },
     addNote() {
       this.notes.push({
-        title: "Новый задача",
+        title: "Новая задача",
         todos: [],
       });
     },
@@ -71,6 +76,7 @@ export default {
     AddEl,
     notes,
     AddNote,
+    Login,
   },
 };
 </script>
